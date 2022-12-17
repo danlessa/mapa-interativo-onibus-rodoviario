@@ -67,6 +67,8 @@ def retrieve_city_connections(city_slug: str) -> tuple:
 cities_arrivals = {}
 cities_departures = {}
 non_sucessful_slugs = []
+
+
 for slug in tqdm(cities_slugs):
     city_arrivals, city_departures, code = retrieve_city_connections(slug)
     if code == 200:
@@ -75,4 +77,26 @@ for slug in tqdm(cities_slugs):
     else:
         non_sucessful_slugs.append(slug)
 
+# %%
+non_sucessful_slugs_2 = []
+for slug in tqdm(non_sucessful_slugs):
+    city_arrivals, city_departures, code = retrieve_city_connections(slug)
+    if code == 200:
+        cities_arrivals[slug] = city_departures
+        cities_departures[slug] = city_departures
+    else:
+        non_sucessful_slugs_2.append(slug)
+non_sucessful_slugs = non_sucessful_slugs_2
+# %%
+import json
+from datetime import datetime
+now = datetime.utcnow()
+
+output_data = {}
+output_data['slugs'] = cities_slugs
+output_data['non_sucessful_slugs'] = non_sucessful_slugs
+output_data['arrivals'] = cities_arrivals
+output_data['departures'] = cities_departures
+with open(f"data/{now}-output.json", "w") as fid:
+    json.dump(output_data, fid)
 # %%
