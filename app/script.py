@@ -15,7 +15,7 @@ SLUG_PATH = 'data/slug_df.csv.xz'
 
 px.set_mapbox_access_token(st.secrets['MAPBOX_TOKEN'])
 
-
+@st.cache_resource
 def load_data() -> pd.DataFrame:
     slug_df = pd.read_csv(SLUG_PATH)
     categories = set(slug_df.company)
@@ -25,7 +25,7 @@ def load_data() -> pd.DataFrame:
     slug_df = slug_df.assign(company_color=lambda df: df.company.map(colors))
     return slug_df
 
-
+@st.cache_resource
 def plot_map_per_org(slug_df, slug, src_as_reference=True):
     def get_slug_fig_df(slug_df, slug, src_as_reference):
         if src_as_reference:
