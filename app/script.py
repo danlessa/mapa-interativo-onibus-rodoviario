@@ -13,8 +13,7 @@ data_path = 'data/2022-12-17 14:46:49.632892-output.json'
 routes_path = 'data/2022-12-18 01:33:21.284286-company-routes.json'
 SLUG_PATH = 'data/slug_df.csv.xz'
 
-mapbox_access_token = open("config/.mapbox_token").read()
-px.set_mapbox_access_token(mapbox_access_token)
+px.set_mapbox_access_token(st.secrets['MAPBOX_TOKEN'])
 
 
 def load_data() -> pd.DataFrame:
