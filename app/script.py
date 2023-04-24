@@ -26,9 +26,7 @@ def load_data() -> pd.DataFrame:
     return slug_df
 
 
-def plot_map_per_org(slug_df, slug):
-    src_as_reference = True
-
+def plot_map_per_org(slug_df, slug, src_as_reference=True):
     def get_slug_fig_df(slug_df, slug, src_as_reference):
         if src_as_reference:
             city_query = f"src == '{slug}'"
@@ -44,12 +42,18 @@ def plot_map_per_org(slug_df, slug):
 
     reference_col, adjacent_col, fig_df = get_slug_fig_df(slug_df, slug, src_as_reference)
 
+
+    if src_as_reference:
+        title = f"Pontos de destino saindo de {slug}"
+    else:
+        title = f"Pontos de origem indo até {slug}"
+
     fig = px.scatter_mapbox(fig_df,
                         lon=f'{reference_col}_x',
                         lat=f'{reference_col}_y', 
                         color='company',
                         hover_name=reference_col,
-                        title=f"Pontos de destino saindo de {slug}",
+                        title=title,
                         height=600, width=800)
 
     fig.update_traces(marker=dict(size=8))

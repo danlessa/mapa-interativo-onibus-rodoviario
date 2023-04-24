@@ -18,10 +18,11 @@ st.sidebar.markdown('## Controles')
 options = df.src.value_counts().keys()
 
 slug = st.sidebar.selectbox('Ponto de Referência', options)
+src_as_reference = st.sidebar.checkbox('Usar referência como origem (marcado) ou destino (desmarcado)')
 plot_container = st.container()
 
 
-fig = plot_map_per_org(df, slug)
+fig = plot_map_per_org(df, slug, src_as_reference)
 st.plotly_chart(fig)
 
 
