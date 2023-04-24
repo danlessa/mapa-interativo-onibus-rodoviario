@@ -26,7 +26,7 @@ def load_data() -> pd.DataFrame:
     return slug_df
 
 @st.cache_resource
-def plot_map_per_org(slug_df, slug, src_as_reference=True):
+def plot_map_per_slug(slug_df, slug, src_as_reference=True):
     def get_slug_fig_df(slug_df, slug, src_as_reference):
         if src_as_reference:
             city_query = f"src == '{slug}'"
@@ -63,5 +63,25 @@ def plot_map_per_org(slug_df, slug, src_as_reference=True):
             'accesstoken': st.secrets['MAPBOX_TOKEN'],
             'style': "outdoors", 'zoom': 3},
         showlegend = True)
+    return fig
+    
 
+@st.cache_resource
+def plot_map_per_org(slug_df, companies: list[str]):
+
+    fig_df = slug_df[slug_df.company.isin(companies)]
+
+    fig = px.scatter_mapbox(fig_df,
+                        lon=f'src_x',
+                        lat=f'src_y', 
+                        color='company',
+                        title="Pontos de origem por empresa",
+                        height=600, width=800)
+
+    fig.update_traces(marker=dict(size=8))
+    fig.update_layout(
+        mapbox = {
+            'accesstoken': st.secrets['MAPBOX_TOKEN'],
+            'style': "outdoors", 'zoom': 3},
+        showlegend = True)
     return fig

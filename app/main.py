@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from script import load_data, plot_map_per_org
+from script import load_data, plot_map_per_org, plot_map_per_slug
 
 # Define layout
 
@@ -19,13 +19,16 @@ options = df.src.value_counts().keys()
 
 slug = st.sidebar.selectbox('Ponto de Referência', options)
 src_as_reference = st.sidebar.checkbox('Usar referência como origem (marcado) ou destino (desmarcado)')
-plot_container = st.container()
 
 
-fig = plot_map_per_org(df, slug, src_as_reference)
-st.plotly_chart(fig)
+companies = df.company.value_counts().keys()
+companies = st.sidebar.multiselect('Empresas de ônibus', companies, default=['catarinense'])
 
+fig_1 = plot_map_per_slug(df, slug, src_as_reference)
+st.plotly_chart(fig_1)
 
+fig_2 = plot_map_per_org(df, companies)
+st.plotly_chart(fig_2)
     
 # Download data
 
