@@ -1,3 +1,5 @@
 .ipynb_checkpoints/
 config/.mapbox_token
 .DS_Store
+.streamlit
+*/__pycache__/*

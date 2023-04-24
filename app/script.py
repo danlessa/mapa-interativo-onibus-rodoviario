@@ -6,6 +6,7 @@ import matplotlib
 from matplotlib.cm import Set2
 from tqdm.auto import tqdm
 import pandas as pd
+import streamlit as st
 
 coords_path = 'data/2022-12-17 15:52:24.006277-coords.json'
 data_path = 'data/2022-12-17 14:46:49.632892-output.json'
@@ -60,7 +61,7 @@ def plot_map_per_org(slug_df, slug, src_as_reference=True):
 
     fig.update_layout(
         mapbox = {
-            'accesstoken': mapbox_access_token,
+            'accesstoken': st.secrets['MAPBOX_TOKEN'],
             'style': "outdoors", 'zoom': 3},
         showlegend = True)
 
