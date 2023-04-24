@@ -3,3 +3,8 @@ tqdm
 types-requests
 OSMPythonTools
 geocoder
+plotly
+streamlit
+pandas
+tqdm
+matplotlib
