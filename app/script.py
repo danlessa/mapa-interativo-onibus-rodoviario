@@ -22,7 +22,7 @@ LAYOUT = dict(
     #minreducedwidth=600,
     #minreducedheight=400,
     #width=WIDTH, 
-    #height=HEIGHT,
+    height=HEIGHT,
     mapbox = {
         'accesstoken': st.secrets['MAPBOX_TOKEN'],
         'style': 'mapbox://styles/danlessa/clhdiwox000ll01o3a3xs6fvp',
@@ -79,7 +79,7 @@ def plot_map_per_slug(slug_df, slug, src_as_reference=True):
                         lat=f'{reference_col}_y', 
                         color='company',
                         hover_name=reference_col,
-                        title=title,
+                        #title=title,
                         color_discrete_sequence=COLOR_SCALE,
                         )
 
@@ -97,7 +97,7 @@ def plot_map_per_org(slug_df, companies: list[str]):
                         lon=f'src_x',
                         lat=f'src_y', 
                         color='company',
-                        title="Pontos de origem por empresa",
+                        #title="Pontos de origem por empresa",
                         color_discrete_sequence=COLOR_SCALE)
 
     fig.update_traces(marker=dict(size=POINT_SIZE))
