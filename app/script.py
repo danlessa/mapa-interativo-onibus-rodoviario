@@ -13,16 +13,21 @@ data_path = 'data/2022-12-17 14:46:49.632892-output.json'
 routes_path = 'data/2022-12-18 01:33:21.284286-company-routes.json'
 SLUG_PATH = 'data/slug_df.csv.xz'
 
+WIDTH = 800
+HEIGHT = 900
+COLOR_SCALE = px.colors.qualitative.Set1
+POINT_SIZE = 5
+
 px.set_mapbox_access_token(st.secrets['MAPBOX_TOKEN'])
 
 @st.cache_resource
 def load_data() -> pd.DataFrame:
     slug_df = pd.read_csv(SLUG_PATH)
-    categories = set(slug_df.company)
-    n_colors = len(categories)
-    colors = px.colors.sample_colorscale("turbo", [n/(n_colors -1) for n in range(n_colors)])
-    colors = {category: colors[i] for i, category in enumerate(categories)}
-    slug_df = slug_df.assign(company_color=lambda df: df.company.map(colors))
+    # categories = set(slug_df.company)
+    # n_colors = len(categories)
+    # colors = px.colors.sample_colorscale("turbo", [n/(n_colors -1) for n in range(n_colors)])
+    # colors = {category: colors[i] for i, category in enumerate(categories)}
+    # slug_df = slug_df.assign(company_color=lambda df: df.company.map(colors))
     return slug_df
 
 @st.cache_resource
@@ -54,14 +59,24 @@ def plot_map_per_slug(slug_df, slug, src_as_reference=True):
                         color='company',
                         hover_name=reference_col,
                         title=title,
-                        height=600, width=800)
+                        color_discrete_sequence=COLOR_SCALE,
+                        )
 
-    fig.update_traces(marker=dict(size=8))
+    fig.update_traces(marker=dict(size=POINT_SIZE))
 
     fig.update_layout(
+        #autosize=True,
+        #minreducedwidth=600,
+        #minreducedheight=400,
+        width=WIDTH, 
+        height=HEIGHT,
         mapbox = {
             'accesstoken': st.secrets['MAPBOX_TOKEN'],
             'style': "outdoors", 'zoom': 3},
+        legend=dict(
+            orientation='h',
+            font = dict(size = 10)
+        ),
         showlegend = True)
     return fig
     
@@ -76,12 +91,21 @@ def plot_map_per_org(slug_df, companies: list[str]):
                         lat=f'src_y', 
                         color='company',
                         title="Pontos de origem por empresa",
-                        height=600, width=800)
+                        color_discrete_sequence=COLOR_SCALE)
 
-    fig.update_traces(marker=dict(size=8))
+    fig.update_traces(marker=dict(size=POINT_SIZE))
     fig.update_layout(
+        #autosize=True,
+        #minreducedwidth=600,
+        #minreducedheight=400,
+        width=WIDTH, 
+        height=HEIGHT,
         mapbox = {
             'accesstoken': st.secrets['MAPBOX_TOKEN'],
             'style': "outdoors", 'zoom': 3},
+        legend=dict(
+            orientation='h',
+            font = dict(size = 10)
+        ),
         showlegend = True)
     return fig
