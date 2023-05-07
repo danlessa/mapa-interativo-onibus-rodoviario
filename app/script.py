@@ -17,8 +17,29 @@ WIDTH = 800
 HEIGHT = 900
 COLOR_SCALE = px.colors.qualitative.Set1
 POINT_SIZE = 5
+LAYOUT = dict(
+    #autosize=True,
+    #minreducedwidth=600,
+    #minreducedheight=400,
+    width=WIDTH, 
+    height=HEIGHT,
+    mapbox = {
+        'accesstoken': st.secrets['MAPBOX_TOKEN'],
+        'style': 'mapbox://styles/danlessa/clhdiwox000ll01o3a3xs6fvp',
+        'zoom': 3},
+    legend=dict(
+        orientation='h',
+       # font = dict(size = 10)
+    ),
+    showlegend = True
+
+)
 
 px.set_mapbox_access_token(st.secrets['MAPBOX_TOKEN'])
+
+
+
+
 
 @st.cache_resource
 def load_data() -> pd.DataFrame:
@@ -63,21 +84,7 @@ def plot_map_per_slug(slug_df, slug, src_as_reference=True):
                         )
 
     fig.update_traces(marker=dict(size=POINT_SIZE))
-
-    fig.update_layout(
-        #autosize=True,
-        #minreducedwidth=600,
-        #minreducedheight=400,
-        width=WIDTH, 
-        height=HEIGHT,
-        mapbox = {
-            'accesstoken': st.secrets['MAPBOX_TOKEN'],
-            'style': "outdoors", 'zoom': 3},
-        legend=dict(
-            orientation='h',
-            font = dict(size = 10)
-        ),
-        showlegend = True)
+    fig.update_layout(**LAYOUT)
     return fig
     
 
@@ -94,18 +101,5 @@ def plot_map_per_org(slug_df, companies: list[str]):
                         color_discrete_sequence=COLOR_SCALE)
 
     fig.update_traces(marker=dict(size=POINT_SIZE))
-    fig.update_layout(
-        #autosize=True,
-        #minreducedwidth=600,
-        #minreducedheight=400,
-        width=WIDTH, 
-        height=HEIGHT,
-        mapbox = {
-            'accesstoken': st.secrets['MAPBOX_TOKEN'],
-            'style': "outdoors", 'zoom': 3},
-        legend=dict(
-            orientation='h',
-            font = dict(size = 10)
-        ),
-        showlegend = True)
+    fig.update_layout(**LAYOUT)
     return fig

@@ -14,18 +14,19 @@ df = load_data()
 
 st.markdown("# Origens e Destinos dos Ônibus Rodoviários do Brasil")
 
-st.sidebar.markdown('## Controles')
+st.markdown('## Mapa 1: Origens e Destinos partindo/chegando em uma cidade, categorizado por empresas')
 options = df.src.value_counts().keys()
 
-slug = st.sidebar.selectbox('Ponto de Referência', options)
-src_as_reference = st.sidebar.checkbox('Usar referência como origem (marcado) ou destino (desmarcado)')
-
-
-companies = df.company.value_counts().keys()
-companies = st.sidebar.multiselect('Empresas de ônibus', companies, default=['catarinense'])
+slug = st.selectbox('Ponto de Referência', options)
+src_as_reference = st.checkbox('Usar referência como origem (marcado) ou destino (desmarcado)')
 
 fig_1 = plot_map_per_slug(df, slug, src_as_reference)
 st.plotly_chart(fig_1)
+
+st.markdown('## Mapa 2: Origens e Destinos partindo/chegando em uma cidade, filtrado por empresas')
+
+companies = df.company.value_counts().keys()
+companies = st.multiselect('Empresas de ônibus', companies, default=['catarinense'])
 
 fig_2 = plot_map_per_org(df, companies)
 st.plotly_chart(fig_2)
