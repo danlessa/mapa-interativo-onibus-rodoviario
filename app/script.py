@@ -18,11 +18,11 @@ HEIGHT = 900
 COLOR_SCALE = px.colors.qualitative.Set1
 POINT_SIZE = 5
 LAYOUT = dict(
-    #autosize=True,
+    autosize=True,
     #minreducedwidth=600,
     #minreducedheight=400,
-    width=WIDTH, 
-    height=HEIGHT,
+    #width=WIDTH, 
+    #height=HEIGHT,
     mapbox = {
         'accesstoken': st.secrets['MAPBOX_TOKEN'],
         'style': 'mapbox://styles/danlessa/clhdiwox000ll01o3a3xs6fvp',

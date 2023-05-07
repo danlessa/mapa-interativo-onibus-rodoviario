@@ -21,7 +21,7 @@ slug = st.selectbox('Ponto de Referência', options)
 src_as_reference = st.checkbox('Usar referência como origem (marcado) ou destino (desmarcado)')
 
 fig_1 = plot_map_per_slug(df, slug, src_as_reference)
-st.plotly_chart(fig_1)
+st.plotly_chart(fig_1, use_container_width=True)
 
 st.markdown('## Mapa 2: Origens e Destinos partindo/chegando em uma cidade, filtrado por empresas')
 
@@ -29,7 +29,7 @@ companies = df.company.value_counts().keys()
 companies = st.multiselect('Empresas de ônibus', companies, default=['catarinense'])
 
 fig_2 = plot_map_per_org(df, companies)
-st.plotly_chart(fig_2)
+st.plotly_chart(fig_2, use_container_width=True)
     
 # Download data
 
